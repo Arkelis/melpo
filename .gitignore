@@ -1,0 +1,5 @@
+design
+.venv
+.vscode
+frontend
+backend.django
