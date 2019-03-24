@@ -18,17 +18,16 @@ dépendances du projet. Le programme marche avec Python 3.7+. Pour installer les
 $ pipenv install
 ```
 
-Pour initialiser la base de donnée :
+Grâce à `python-dotenv`, pas besoin de renseigner `FLASK_APP` et compagine, les options sont
+indiquées dans `backend/.flaskenv`. Pour initialiser la base de donnée :
 
 ```
 $ cd backend
-$ export FLASK_APP=app
 $ flask db upgrade
 ```
 
 Pour lancer le site :
 
 ```
-$ export FLASK_ENV=development
 $ flask run
 ```
