@@ -3,3 +3,4 @@ design
 .vscode
 frontend
 backend.django
+backend/db.sqlite3

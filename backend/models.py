@@ -1,6 +1,6 @@
 from . import db
 from . import ma
-
+from marshmallow import fields, post_load
 
 # Modèles
 class Artist(db.Model):
@@ -26,7 +26,7 @@ class Album(db.Model):
         return f"Album(name={self.name}, artist={self.artist}, year={self.year})"
 
     def __str__(self):
-        return f"{self.artist} - {self.name}"
+        return self.name
 
 
 class Song(db.Model):
@@ -47,14 +47,36 @@ class Song(db.Model):
         return f"Song(name={self.name}, album={repr(self.album)})"
 
     def __str__(self):
-        return f"{self.artist} - {self.name}"
+        return self.name
 
 
-class ArtistSchema(ma.Schema):
+class ArtistSchema(ma.ModelSchema):
     class Meta:
-        fields = ('id', 'name', 'bio')
+        model = Artist
+
+
+class AlbumSchema(ma.ModelSchema):
+    artist = fields.String()
+
+    class Meta:
+        model = Album
+
+
+class SongSchema(ma.ModelSchema):
+    year = fields.Integer()
+    artist = fields.String()
+    album = fields.String()
+
+    class Meta:
+        model = Song
 
 
 # init schema
 artist_schema = ArtistSchema(strict=True)
 artists_schema = ArtistSchema(many=True, strict=True)
+
+album_schema = AlbumSchema(strict=True)
+albums_schema = AlbumSchema(many=True, strict=True)
+
+song_schema = SongSchema(strict=True)
+songs_schema = SongSchema(many=True, strict=True)
