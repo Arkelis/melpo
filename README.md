@@ -19,10 +19,10 @@ $ pipenv install
 ```
 
 Grâce à `python-dotenv`, pas besoin de renseigner `FLASK_APP` et compagine, les options sont
-indiquées dans `backend/.flaskenv`. Pour initialiser la base de donnée :
+indiquées dans `melpo/backend/.flaskenv`. Pour initialiser la base de donnée :
 
 ```
-$ cd backend
+$ cd melpo/backend
 $ flask db upgrade
 ```
 
