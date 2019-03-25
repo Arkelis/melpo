@@ -1,6 +1,20 @@
 # Melpo
 
-Webapp lecteur de musique écrit en Flask (+React). Voir le Pipfile pour les dépendances.
+Webapp lecteur de musique écrit en Flask (+React).
+
+## Dépendances Backend
+
+Le backend est une API écrite en Python avec Flask. L'application est construite avec :
+
+* [Flask-SQLAlchemy](https://github.com/pallets/flask-sqlalchemy) pour créer les modèles.
+* [Flask-Marshallow](https://github.com/marshmallow-code/flask-marshmallow) et 
+  [Marshmallow-SQLAlchemy](https://github.com/marshmallow-code/marshmallow-sqlalchemy) pour créer les serializers.
+* [Flask-Migrate](https://github.com/miguelgrinberg/Flask-Migrate) pour gérer les migrations de bases de données.
+
+Autres dépendances :
+
+* [Python-dotenv](https://github.com/theskumar/python-dotenv) pour utiliser les fichiers`.flaskenv` et `.env` avec la
+  commande `flask`.
 
 ## Installation
 
@@ -31,3 +45,13 @@ Pour lancer le site :
 ```
 $ flask run
 ```
+
+## Roadmap
+
+* [ ] Backend
+  * [x] Modèles
+  * [ ] API Artistes
+  * [ ] API Albums
+  * [ ] API Titres
+  * [ ] Scan des fichiers
+* [ ] Frontend
