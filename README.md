@@ -50,8 +50,8 @@ $ flask run
 
 * [ ] Backend
   * [x] Modèles
-  * [ ] API Artistes
-  * [ ] API Albums
-  * [ ] API Titres
+  * [x] API Artistes
+  * [x] API Albums
+  * [x] API Titres
   * [ ] Scan des fichiers
 * [ ] Frontend
