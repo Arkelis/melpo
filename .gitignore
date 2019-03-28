@@ -1,6 +1,3 @@
 design
-.venv
 .vscode
-frontend
-backend.django
-backend/db.sqlite3
+backend/app/db.sqlite3
