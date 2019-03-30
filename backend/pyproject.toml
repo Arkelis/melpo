@@ -1,8 +1,14 @@
 [tool.poetry]
 name = "melpo-api"
-version = "0.0.1"
-description = ""
+version = "0.0.2"
+description = "API serving Melpo's frontend."
 authors = ["Arkelis <guillaume.fayard@pycolore.fr>"]
+license="GPL-3.0+"
+readme = "README.md"
+repository="https://github.com/Arkelis/melpo"
+homepage="https://github.com/Arkelis/melpo"
+keywords=["music", "api", "flask"]
+
 
 [tool.poetry.dependencies]
 python = "^3.7"
