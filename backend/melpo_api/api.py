@@ -3,6 +3,7 @@ from flask.views import MethodView
 from . import db
 from .models import Artist, Album, Song
 from .models import artist_schema, artists_schema, album_schema, albums_schema, song_schema, songs_schema
+from .scan import scan
 
 api = Blueprint("api", __name__)
 
@@ -94,6 +95,12 @@ def register_api(view, endpoint, url, pk='id', pk_type='int'):
 register_api(ArtistAPI, 'artist_api', '/artistes/')
 register_api(AlbumAPI, 'album_api', '/albums/')
 register_api(SongAPI, 'song_api', '/titres/')
+
+# scan des fichiers
+@api.route("/scan")
+def scan_library():
+    scan()
+
 
 # Erreurs
 @api.errorhandler(400)
