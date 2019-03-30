@@ -29,6 +29,7 @@ Il est conseillé d'utiliser [`poetry`](https://github.com/sdispater/poetry) pou
 dépendances du projet. Le programme marche avec Python 3.7+. Pour installer les dépendances :
 
 ```
+$ cd melpo/backend
 $ poetry install
 ```
 
@@ -36,7 +37,6 @@ Grâce à `python-dotenv`, pas besoin de renseigner `FLASK_APP` et compagine, le
 indiquées dans `melpo/backend/.flaskenv`. Pour initialiser la base de donnée :
 
 ```
-$ cd melpo/backend
 $ poetry run flask db upgrade
 ```
 

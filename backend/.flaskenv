@@ -1,3 +1,3 @@
-FLASK_APP=app
+FLASK_APP=melpo_api
 FLASK_ENV=development
 FLASK_RUN_PORT=8000

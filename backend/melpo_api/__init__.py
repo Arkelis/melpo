@@ -18,7 +18,7 @@ app.config.from_mapping(**CONFIG)
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 # database config 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'db.sqlite3')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, '..', 'db.sqlite3')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # init db
