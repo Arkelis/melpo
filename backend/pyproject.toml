@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "melpo-api"
-version = "0.0.2"
+version = "0.0.2.post1"
 description = "API serving Melpo's frontend."
 authors = ["Arkelis <guillaume.fayard@pycolore.fr>"]
 license="GPL-3.0+"
