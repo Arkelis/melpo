@@ -1,6 +1,6 @@
 # Melpo
 
-Webapp lecteur de musique écrit en Flask (+React).
+Webapp lecteur de musique écrit en Flask (+Vue).
 
 ## Dépendances Backend
 
@@ -25,6 +25,12 @@ $ git clone git@github.com:Arkelis/melpo.git     # ssh
 $ git clone https://github.com/Arkelis/melpo.git # https
 ```
 
+### Backend
+
+```
+$ cd backend
+```
+
 Il est conseillé d'utiliser [`poetry`](https://github.com/sdispater/poetry) pour gérer les
 dépendances du projet. Le programme marche avec Python 3.7+. Pour installer les dépendances :
 
@@ -40,18 +46,28 @@ indiquées dans `melpo/backend/.flaskenv`. Pour initialiser la base de donnée :
 $ poetry run flask db upgrade
 ```
 
-Pour lancer le site :
+Pour lancer le backend :
 
 ```
 $ poetry run flask run
 ```
 
-## Roadmap
+### Frontend
+
+```
+$ cd webapp
+```
+
+En cours de développement.
+
+## Feuille de route
 
 * [ ] Backend
   * [x] Modèles
   * [x] API Artistes
   * [x] API Albums
   * [x] API Titres
-  * [ ] Scan des fichiers
-* [ ] Frontend
+  * [x] Scan des fichiers
+* [ ] Frontend (App web)
+* [ ] App mobile
+* [ ] App desktop
