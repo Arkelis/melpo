@@ -33,7 +33,7 @@ ma = Marshmallow(app)
 # index view
 @app.route("/")
 def index():
-    return "This is Melpo Flask Backend!"
+    return "Available resources at endpoints: artistes, chansons, albums"
 
 # json 404 view
 @app.errorhandler(404)

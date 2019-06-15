@@ -19,6 +19,7 @@ flask-migrate = "^2.4"
 flask-marshmallow = "^0.10.0"
 python-dotenv = "^0.10.1"
 eyeD3 = "^0.8.10"
+pytaglib = "^1.4"
 
 [tool.poetry.dev-dependencies]
 pylint = "^2.3"

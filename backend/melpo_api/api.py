@@ -33,7 +33,7 @@ class BaseAPI(MethodView):
 
     def init_schema(self, many: bool = False):
         name = "schema_many" if many else "schema"
-        schema_name = f"{self.model.__name__.lower()}" + ("s" if many else "") + "_schema"
+        schema_name = self.model.__name__.lower() + ("s" if many else "") + "_schema"
         if schema_name in globals():
             setattr(self, name, eval(schema_name))
         else:
@@ -86,11 +86,9 @@ class SongAPI(BaseAPI):
 # func from Flask docs to refactor
 def register_api(view, endpoint, url, pk='id', pk_type='int'):
     view_func = view.as_view(endpoint)
-    api.add_url_rule(url, defaults={pk: None},
-                     view_func=view_func, methods=['GET',])
-    api.add_url_rule(url, view_func=view_func, methods=['POST',])
-    api.add_url_rule('%s<%s:%s>' % (url, pk_type, pk), view_func=view_func,
-                     methods=['GET', 'PATCH', 'DELETE'])
+    api.add_url_rule(url, defaults={pk: None}, view_func=view_func, methods=['GET'])
+    api.add_url_rule(url, view_func=view_func, methods=['POST'])
+    api.add_url_rule(f"{url}<{pk_type}:{pk}>", view_func=view_func, methods=['GET', 'PATCH', 'DELETE'])
 
 register_api(ArtistAPI, 'artist_api', '/artistes/')
 register_api(AlbumAPI, 'album_api', '/albums/')
@@ -99,8 +97,43 @@ register_api(SongAPI, 'song_api', '/titres/')
 # scan des fichiers
 @api.route("/scan")
 def scan_library():
-    scan()
-
+    artists = [artist.name for artist in Artist.query.all()]
+    albums = [album.name for album in Album.query.all()]
+    songs = [song.path for song in Song.query.all()]
+    found_data = scan()
+    for song in found_data:
+        if not song["artist"]:
+            continue
+        if song["artist"] not in artists:
+            new_artist = Artist(name=song["artist"])
+            artists.append(new_artist.name)
+            db.session.add(new_artist)
+    db.session.commit()
+    for song in found_data:
+        if not song["album"]:
+            continue
+        if song["album"] not in albums:
+            new_album = Album(name=song["album"])
+            albums.append(new_album.name)
+            db.session.add(new_album)
+    db.session.commit()
+    for song in found_data:
+        if song["path"] in songs:
+            continue
+        new_song = Song(
+            title=song["title"],
+            length=song["length"],
+            path = song["path"],
+            track_number = song["track_number"]
+        )
+        if song["album"]:
+            new_song.album = Album.query.filter_by(name=song["album"]).first()
+        if song["artist"]:
+            new_song.artists.append(Artist.query.filter_by(name=song["artist"]).first())
+        db.session.add(new_song)
+        print(f"Ajout de {song['title']}")
+    db.session.commit()
+    return jsonify("ok")
 
 # Erreurs
 @api.errorhandler(400)

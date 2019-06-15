@@ -205,6 +205,14 @@ mccabe = ">=0.6,<0.7"
 
 [[package]]
 category = "main"
+description = "cross-platform, Python 2.x/3.x audio metadata (\"tagging\") library based on TagLib"
+name = "pytaglib"
+optional = false
+python-versions = "*"
+version = "1.4.5"
+
+[[package]]
+category = "main"
 description = "Extensions to the standard Python datetime module"
 name = "python-dateutil"
 optional = false
@@ -280,7 +288,7 @@ python-versions = "*"
 version = "1.11.1"
 
 [metadata]
-content-hash = "e9877182d4563d8a2a665741b0083f2be2a6fc6c95461a82df0488563e55de64"
+content-hash = "4089dfa594dfa4697a62d6c92c4054ad16f420b5731a6fddc157998d1a117896"
 python-versions = "^3.7"
 
 [metadata.hashes]
@@ -303,6 +311,7 @@ marshmallow = ["01412e979b45c003aeb3632718780b15b01566ae0182cc9232434b30f6b85e1b
 marshmallow-sqlalchemy = ["2f88d2020af00b8a12406009e8114f55b1788ea89a0bba6f8fbd0afd8de86b8f", "99c50c570b6e89ffc9f9633ce4acb63f9e1bddf36839b07b9ae0f540588d6937"]
 mccabe = ["ab8a6258860da4b6677da4bd2fe5dc2c659cff31b3ee4f7f5d64e79735b80d42", "dd8d182285a0fe56bace7f45b5e7d1a6ebcbf524e8f3bd87eb0f125271b8831f"]
 pylint = ["5d77031694a5fb97ea95e828c8d10fc770a1df6eb3906067aaed42201a8a6a09", "723e3db49555abaf9bf79dc474c6b9e2935ad82230b10c1138a71ea41ac0fff1"]
+pytaglib = ["8aec64bc146a9f72778a0d2d1f3448f58be6ebea68f64b0ff88ea8e0f4dc5d8f"]
 python-dateutil = ["7e6584c74aeed623791615e26efd690f29817a27c73085b78e4bad02493df2fb", "c89805f6f4d64db21ed966fda138f8a5ed7a4fdbc1a8ee329ce1b74e3c74da9e"]
 python-dotenv = ["a84569d0e00d178bc5b957f7ff208bf49287cbf61857c31c258c4a91f571527b", "c9b1ddd3cdbe75c7d462cb84674d87130f4b948f090f02c7d7144779afb99ae0"]
 python-editor = ["1bf6e860a8ad52a14c3ee1252d5dc25b2030618ed80c022598f00176adc8367d", "51fda6bcc5ddbbb7063b2af7509e43bd84bfc32a4ff71349ec7847713882327b", "5f98b069316ea1c2ed3f67e7f5df6c0d8f10b689964a4a811ff64f0106819ec8", "c3da2053dbab6b29c94e43c486ff67206eafbe7eb52dbec7390b5e2fb05aac77", "ea87e17f6ec459e780e4221f295411462e0d0810858e055fc514684350a2f522"]

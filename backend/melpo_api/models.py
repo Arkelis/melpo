@@ -2,6 +2,13 @@ from . import db
 from . import ma
 from marshmallow import fields, post_load
 
+# Relation artiste <-> morceau
+songs_artists = db.Table(
+    "songs_artists",
+    db.Column("song_id", db.Integer, db.ForeignKey("song.id")),
+    db.Column("artist_id", db.Integer, db.ForeignKey("artist.id")),
+)
+
 # Modèles
 class Artist(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -19,8 +26,6 @@ class Album(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128), nullable=False)
     year = db.Column(db.Integer)
-    artist_id = db.Column(db.Integer, db.ForeignKey("artist.id"), nullable=False)
-    artist = db.relationship("Artist", backref=db.backref("albums", lazy=True))
 
     def __repr__(self):
         return f"Album(name={self.name}, artist={self.artist}, year={self.year})"
@@ -31,9 +36,13 @@ class Album(db.Model):
 
 class Song(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(256))
-    album_id = db.Column(db.Integer, db.ForeignKey("album.id"), nullable=False)
+    title = db.Column(db.String(256))
+    album_id = db.Column(db.Integer, db.ForeignKey("album.id"), nullable=True)
     album = db.relationship("Album", backref=db.backref("songs", lazy=True))
+    length = db.Column(db.Integer)
+    artists = db.relationship("Artist", secondary=songs_artists, backref=db.backref("songs_artists", lazy="dynamic"))
+    path = db.Column(db.String(512))
+    track_number = db.Column(db.String(3))
 
     @property
     def artist(self):
@@ -44,7 +53,9 @@ class Song(db.Model):
         return self.album.year
 
     def __repr__(self):
-        return f"Song(name={self.name}, album={repr(self.album)})"
+        if not album:
+            return str(self)
+        return f"Song(name={self.title}, album={repr(self.album)})"
 
     def __str__(self):
         return self.name
