@@ -4,6 +4,7 @@ from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
+from flask_cors import CORS
 import os
 
 CONFIG = {
@@ -29,6 +30,9 @@ migrate = Migrate(app, db)
 
 # init ma
 ma = Marshmallow(app)
+
+# cors
+CORS = CORS(app)
 
 # index view
 @app.route("/")
