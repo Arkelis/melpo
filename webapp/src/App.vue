@@ -19,6 +19,7 @@ export default {
 @import "~bulma/css/bulma.css";
 
 .content h1 {
+    text-align: center;
     margin-top: 2em;
     margin-bottom: 1em;
 }
