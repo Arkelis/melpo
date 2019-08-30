@@ -1,4 +1,8 @@
-from flask import Blueprint, request, jsonify, abort, Response
+from flask import Blueprint, request, jsonify, abort, Response, send_file
+import requests
+import shutil
+import sys
+import os
 from flask.views import MethodView
 from . import db
 from .models import Artist, Album, Song
@@ -83,16 +87,15 @@ class AlbumAPI(BaseAPI):
 class SongAPI(BaseAPI):
     model = Song
 
-# func from Flask docs to refactor
 def register_api(view, endpoint, url, pk='id', pk_type='int'):
     view_func = view.as_view(endpoint)
     api.add_url_rule(url, defaults={pk: None}, view_func=view_func, methods=['GET'])
     api.add_url_rule(url, view_func=view_func, methods=['POST'])
     api.add_url_rule(f"{url}<{pk_type}:{pk}>", view_func=view_func, methods=['GET', 'PATCH', 'DELETE'])
 
-register_api(ArtistAPI, 'artist_api', '/artistes/')
+register_api(ArtistAPI, 'artist_api', '/artists/')
 register_api(AlbumAPI, 'album_api', '/albums/')
-register_api(SongAPI, 'song_api', '/titres/')
+register_api(SongAPI, 'song_api', '/songs/')
 
 # scan des fichiers
 @api.route("/scan")
@@ -101,6 +104,8 @@ def scan_library():
     albums = [album.name for album in Album.query.all()]
     songs = [song.path for song in Song.query.all()]
     found_data = scan()
+
+    # First iteration: find new artists
     for song in found_data:
         if not song["artist"]:
             continue
@@ -109,6 +114,8 @@ def scan_library():
             artists.append(new_artist.name)
             db.session.add(new_artist)
     db.session.commit()
+
+    # Second iteration: find new albums
     for song in found_data:
         if not song["album"]:
             continue
@@ -117,6 +124,8 @@ def scan_library():
             albums.append(new_album.name)
             db.session.add(new_album)
     db.session.commit()
+
+    # Last iteration: commit songs
     for song in found_data:
         if song["path"] in songs:
             continue
@@ -133,7 +142,38 @@ def scan_library():
         db.session.add(new_song)
         print(f"Ajout de {song['title']}")
     db.session.commit()
-    return jsonify("ok")
+    return jsonify("Scan was successful.")
+
+@api.route("/image/<model_name>/<int:pk>")
+def get_cover(model_name, pk):
+    if model_name not in ("artist", "album"):
+        return jsonify("Les images ne sont disponibles que pour les artistes ou les albums."), 404
+    model = {
+        "artist": Artist,
+        "album": Album,
+    }[model_name]
+    model_instance = model.query.get_or_404(pk)
+    image_attr = {
+        Artist: "picture",
+        Album: "cover",
+    }[type(model_instance)]
+    picture_url = getattr(model_instance, image_attr)
+    if not picture_url:
+        deezer_response = requests.get(f"https://api.deezer.com/search?q={model_name}:'{model_instance.name.lower()}'")
+        try:
+            deezer_picture_url = deezer_response.json()["data"][0][model_name][f"{image_attr}_xl"]
+            deezer_response = requests.get(deezer_picture_url, stream=True)
+            picture_url = str(os.getcwd()) + f"/img/{model_name}/{model_instance.id}.jpg"
+            with open(picture_url, "wb") as picture:
+                shutil.copyfileobj(deezer_response.raw, picture)
+            setattr(model_instance, image_attr, picture_url)
+            db.session.add(model_instance)
+            db.session.commit()
+        except IndexError:
+            return jsonify("cover or picture not found")
+    return send_file(picture_url, attachment_filename=f"{model_instance.name}.jpg")
+    
+
 
 # Erreurs
 @api.errorhandler(400)

@@ -14,6 +14,11 @@ class Artist(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128), unique=True, nullable=False)
     bio = db.Column(db.Text(200))
+    picture = db.Column(db.String(2048))
+
+    @property
+    def picture_url(self):
+        return f"http://localhost:8000/image/artist/{self.id}"
 
     def __repr__(self):
         return f"Artist(name={self.name}, bio={self.bio})"
@@ -26,6 +31,7 @@ class Album(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128), nullable=False)
     year = db.Column(db.Integer)
+    cover = db.Column(db.String(2048))
 
     def __repr__(self):
         return f"Album(name={self.name}, artist={self.artist}, year={self.year})"
@@ -45,7 +51,7 @@ class Song(db.Model):
     track_number = db.Column(db.String(3))
 
     @property
-    def artist(self):
+    def album_artist(self):
         return self.album.artist
 
     @property
@@ -62,8 +68,11 @@ class Song(db.Model):
 
 
 class ArtistSchema(ma.ModelSchema):
+    picture_url = fields.String()
+
     class Meta:
         model = Artist
+        fields = ("id", "name", "bio", "picture_url", "songs_artists")
 
 
 class AlbumSchema(ma.ModelSchema):
